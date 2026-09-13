@@ -3,71 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMPUS-Mini | Tambah Buku</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Tambah Buku | SIMPUS-Mini</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
-<body>
-    <header class="navbar navbar-expand-lg navbar-dark" style="background-color:#1d5b8a;">
-        <div class="container">
-            <a class="navbar-brand fw-semibold" href="../index.html">SIMPUS-Mini</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <nav class="collapse navbar-collapse" id="navMenu">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="../index.html">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="buku-list.html">Daftar Buku</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="buku-tambah.html">Tambah Buku</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../anggota/anggota-list.html">Daftar Anggota</a></li>
-                </ul>
-            </nav>
+<body data-restrict="admin">
+
+    <header class="app-nav">
+        <div class="logo">
+            <div class="login-icon-mark">
+                <i class="fa-solid fa-book-bookmark"></i>
+            </div>
+            <h2>SIMPUS-Mini</h2>
+        </div>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Buka menu navigasi" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="../index.html">Dashboard</a></li>
+                <li><a href="buku-list.html" class="active">Kelola Buku</a></li>
+                <li class="admin-only"><a href="../anggota/anggota-list.html">Kelola Anggota</a></li>
+                <li><a href="#">Peminjaman</a></li>
+            </ul>
+        </nav>
+        <div class="user-box">
+            <span id="user-display"></span>
+            <button type="button" class="logout-btn" data-logout><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</button>
         </div>
     </header>
 
-    <main class="container my-4">
-        <section class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h2 class="card-title mb-3" style="color:#1d5b8a;">Tambah Buku</h2>
-                <form>
-                    <div class="mb-3">
-                        <label for="judul" class="form-label fw-semibold">Judul</label>
-                        <input type="text" class="form-control" id="judul" name="judul" required>
+    <main class="container">
+        <a href="buku-list.html" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Buku
+        </a>
+
+        <div class="form-card">
+            <h2 class="form-card-title">Tambah Buku Baru</h2>
+            <p class="form-card-desc">Isi detail informasi buku di bawah ini.</p>
+
+            <form action="buku-list.html" method="GET">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="kode_buku">Kode Buku</label>
+                        <input type="text" id="kode_buku" placeholder="Contoh: BK-003" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="pengarang" class="form-label fw-semibold">Pengarang</label>
-                        <input type="text" class="form-control" id="pengarang" name="pengarang" required>
+
+                    <div class="form-group">
+                        <label for="isbn">Nomor ISBN</label>
+                        <input type="text" id="isbn" placeholder="978-xxx-xxxx-xx-x">
                     </div>
-                    <div class="mb-3">
-                        <label for="tahun" class="form-label fw-semibold">Tahun Terbit</label>
-                        <input type="number" class="form-control" id="tahun" name="tahun" min="1900" max="2026" required>
+
+                    <div class="form-group full-width">
+                        <label for="judul">Judul Buku</label>
+                        <input type="text" id="judul" placeholder="Masukkan judul buku lengkap" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="isbn" class="form-label fw-semibold">ISBN</label>
-                        <input type="text" class="form-control" id="isbn" name="isbn">
+
+                    <div class="form-group">
+                        <label for="pengarang">Pengarang / Penulis</label>
+                        <input type="text" id="pengarang" placeholder="Nama penulis" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="stok" class="form-label fw-semibold">Stok</label>
-                        <input type="number" class="form-control" id="stok" name="stok" min="0" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="kategori" class="form-label fw-semibold">Kategori</label>
-                        <select class="form-select" id="kategori" name="kategori">
-                            <option value="fiksi">Fiksi</option>
-                            <option value="non-fiksi">Non-Fiksi</option>
-                            <option value="referensi">Referensi</option>
+
+                    <div class="form-group">
+                        <label for="kategori">Kategori</label>
+                        <select id="kategori" required>
+                            <option value="">-- Pilih Kategori --</option>
+                            <option value="Teknologi">Teknologi & Komputer</option>
+                            <option value="Pemrograman">Pemrograman</option>
+                            <option value="Sains">Sains & Matematika</option>
+                            <option value="Fiksi">Fiksi & Sastra</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn" style="background-color:#1d5b8a; color:#fff;">Simpan</button>
-                </form>
-            </div>
-        </section>
+
+                    <div class="form-group">
+                        <label for="jumlah">Jumlah Stok Buku</label>
+                        <input type="number" id="jumlah" min="1" placeholder="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tahun">Tahun Terbit</label>
+                        <input type="number" id="tahun" placeholder="2026">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="deskripsi">Deskripsi Singkat / Ringkasan</label>
+                        <textarea id="deskripsi" rows="3" placeholder="Catatan atau sinopsis buku..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a href="buku-list.html" class="btn-cancel">Batal</a>
+                    <button type="submit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> Simpan Buku</button>
+                </div>
+            </form>
+        </div>
     </main>
-    
-    <footer>
-        <p>&copy; 2026 SIMPUS-Mini 7mdash; Jobsheet 1</p>
+
+    <footer class="app-footer">
+        <div class="footer-inner">
+            <p>&copy; 2026 SIMPUS-Mini &bull; Created by <strong>Adelia Amanta Putri</strong></p>
+            <ul class="footer-links">
+                <li><a href="#">Bantuan</a></li>
+                <li><a href="#">Kebijakan Privasi</a></li>
+                <li><a href="#">Hubungi Kami</a></li>
+            </ul>
+        </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/script.js"></script>
 </body>
 </html>
