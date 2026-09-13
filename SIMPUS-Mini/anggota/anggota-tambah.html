@@ -3,59 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMPUS-Mini | Tambah Anggota</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Tambah Anggota | SIMPUS-Mini</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
-<body>
-    <header class="navbar navbar-expand-lg navbar-dark" style="background-color:#1d5b8a;">
-        <div class="container">
-            <a class="navbar-brand fw-semibold" href="../index.html">SIMPUS-Mini</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <nav class="collapse navbar-collapse" id="navMenu">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="../index.html">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../buku/buku-list.html">Daftar Buku</a></li>
-                    <li class="nav-item"><a class="nav-link" href="anggota-list.html">Daftar Anggota</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="anggota-tambah.html">Tambah Anggota</a></li>
-                </ul>
-            </nav>
+<body data-restrict="admin">
+
+    <header class="app-nav">
+        <div class="logo">
+            <span class="mark"></span>
+            <h2>SIMPUS-Mini</h2>
+        </div>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Buka menu navigasi" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="../index.html">Dashboard</a></li>
+                <li><a href="../buku/buku-list.html">Kelola Buku</a></li>
+                <li class="admin-only"><a href="anggota-list.html" class="active">Kelola Anggota</a></li>
+                <li><a href="#">Peminjaman</a></li>
+            </ul>
+        </nav>
+        <div class="user-box">
+            <span id="user-display"></span>
+            <button type="button" class="logout-btn" data-logout><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</button>
         </div>
     </header>
-    
-    <main class="container my-4">
-        <section class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h2 class="card-title mb-3" style="color:#1d5b8a;">Tambah Anggota</h2>
-                <form>
-                    <div class="mb-3">
-                        <label for="nama" class="form-label fw-semibold">Nama</label>
-                        <input type="text" class="form-control" id="nama" name="nama" required>
+
+    <main class="container">
+        <a href="anggota-list.html" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Anggota
+        </a>
+
+        <div class="form-card">
+            <h2 class="form-card-title">Tambah Anggota Baru</h2>
+            <p class="form-card-desc">Pendaftaran anggota baru perpustakaan.</p>
+
+            <form action="anggota-list.html" method="GET">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="id_anggota">ID Anggota</label>
+                        <input type="text" id="id_anggota" placeholder="Contoh: AG-103" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="no_anggota" class="form-label fw-semibold">No. Anggota</label>
-                        <input type="text" class="form-control" id="no_anggota" name="no_anggota" required>
+
+                    <div class="form-group">
+                        <label for="telepon">Nomor Telepon / WA</label>
+                        <input type="tel" id="telepon" placeholder="08xxxxxxxxxx" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="alamat" class="form-label fw-semibold">Alamat</label>
-                        <input type="text" class="form-control" id="alamat" name="alamat">
+
+                    <div class="form-group full-width">
+                        <label for="nama">Nama Lengkap</label>
+                        <input type="text" id="nama" placeholder="Masukkan nama lengkap anggota" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="no_hp" class="form-label fw-semibold">No. HP</label>
-                        <input type="text" class="form-control" id="no_hp" name="no_hp">
+
+                    <div class="form-group full-width">
+                        <label for="email">Alamat Email</label>
+                        <input type="email" id="email" placeholder="contoh@domain.com" required>
                     </div>
-                    <button type="submit" class="btn" style="background-color:#1d5b8a; color:#fff;">Simpan</button>
-                </form>
-            </div>
-        </section>
+
+                    <div class="form-group full-width">
+                        <label for="alamat">Alamat Tinggal</label>
+                        <textarea id="alamat" rows="2" placeholder="Alamat lengkap..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a href="anggota-list.html" class="btn-cancel">Batal</a>
+                    <button type="submit" class="btn-submit"><i class="fa-solid fa-user-check"></i> Simpan Anggota</button>
+                </div>
+            </form>
+        </div>
     </main>
 
-    <footer>
-        <p>&copy; 2026 SIMPUS-Mini 7mdash; Jobsheet 1</p>
+    <footer class="app-footer">
+        <div class="footer-inner">
+            <p>&copy; 2026 SIMPUS-Mini &bull; Created by <strong>Adelia Amanta Putri</strong></p>
+            <ul class="footer-links">
+                <li><a href="#">Bantuan</a></li>
+                <li><a href="#">Kebijakan Privasi</a></li>
+                <li><a href="#">Hubungi Kami</a></li>
+            </ul>
+        </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/script.js"></script>
 </body>
 </html>
