@@ -1,0 +1,177 @@
+<?php
+require_once 'includes/koneksi.php';
+
+$total_buku = (int) $pdo->query('SELECT COUNT(*) FROM buku')->fetchColumn();
+$total_anggota = (int) $pdo->query('SELECT COUNT(*) FROM anggota')->fetchColumn();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMPUS-Mini | Perpustakaan Digital</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div id="toast-container" aria-live="polite"></div>
+
+    <div id="login-section">
+        <div class="login-wrapper" id="login-wrapper">
+            <div class="login-left">
+                <div class="login-header">
+                    <div class="login-icon-mark">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                    </div>
+                    <h1>Selamat Datang</h1>
+                    <p class="sub">Silakan masuk ke akun SIMPUS-Mini Anda.</p>
+                </div>
+                <div class="form-group" id="group-username">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Masukkan username (admin / siswa)">
+                    <span class="field-error"><i class="fa-solid fa-circle-exclamation"></i><span id="error-username">Username wajib diisi.</span></span>
+                </div>
+                
+                <div class="form-group" id="group-password">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Masukkan password (bebas)">
+                    <span class="field-error"><i class="fa-solid fa-circle-exclamation"></i><span id="error-password">Password wajib diisi.</span></span>
+                </div>
+
+                <button onclick="prosesLogin()">Masuk Akun</button>
+                <p class="login-hint">Uji coba username: <b>admin</b> atau <b>siswa</b></p>
+            </div>
+
+            <div class="login-right">
+                <div class="banner-content">
+                    <span class="badge">Digital Library System</span>
+                    <h1>SIMPUS-Mini</h1>
+                    <p>Jelajahi katalog buku, kelola peminjaman, dan akses pengetahuan dengan lebih mudah dalam satu platform.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard-section" class="hidden">
+
+        <header class="app-nav">
+            <div class="logo">
+                <div class="login-icon-mark">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                </div>
+                <h2>SIMPUS-Mini</h2>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Buka menu navigasi" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <nav id="main-nav">
+                <ul id="nav-admin" class="hidden">
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="buku/list.php">Kelola Buku</a></li>
+                    <li><a href="anggota/list.php">Data Anggota</a></li>
+                    <li><a href="#">Laporan</a></li>
+                </ul>
+                <ul id="nav-anggota" class="hidden">
+                    <li><a href="#">Beranda</a></li>
+                    <li><a href="siswa/katalog.php">Katalog Buku</a></li>
+                    <li><a href="#">Pinjaman Saya</a></li>
+                </ul>
+            </nav>
+            <div class="user-box">
+                <span id="user-display"></span>
+                <button class="logout-btn" onclick="prosesLogout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</button>
+            </div>
+        </header>
+
+        <div class="hero-banner">
+            <h1 id="hero-title">Selamat Datang di SIMPUS</h1>
+            <p id="hero-desc">Temukan ribuan bacaan menarik dan sumber pengetahuan di sini.</p>
+        </div>
+
+        <div class="container">
+            <h2 class="section-title">Ringkasan Aktivitas</h2>
+
+            <div id="content-admin" class="cards-grid hidden">
+                <div class="card c-navy">
+                    <div class="card-info">
+                        <p class="label">Total Koleksi Buku</p>
+                        <h3><?= number_format($total_buku, 0, ',', '.') ?></h3>
+                    </div>
+                    <div class="card-icon"><i class="fa-solid fa-book"></i></div>
+                </div>
+                <div class="card c-moss">
+                    <div class="card-info">
+                        <p class="label">Anggota Terdaftar</p>
+                        <h3><?= number_format($total_anggota, 0, ',', '.') ?></h3>
+                    </div>
+                    <div class="card-icon"><i class="fa-solid fa-users"></i></div>
+                </div>
+                <div class="card c-mustard">
+                    <div class="card-info">
+                        <p class="label">Sedang Dipinjam</p>
+                        <h3>45</h3>
+                    </div>
+                    <div class="card-icon"><i class="fa-solid fa-book-reader"></i></div>
+                </div>
+                <div class="card c-terracotta">
+                    <div class="card-info">
+                        <p class="label">Dikembalikan Hari Ini</p>
+                        <h3>12</h3>
+                    </div>
+                    <div class="card-icon"><i class="fa-solid fa-rotate-left"></i></div>
+                </div>
+            </div>
+
+            <div id="content-anggota" class="cards-grid hidden">
+                <div class="card c-sky">
+                    <div class="card-info">
+                        <p class="label">Buku Sedang Dipinjam</p>
+                        <h3>2 Buku</h3>
+                    </div>
+                    <div class="card-icon"><i class="fa-solid fa-book-open"></i></div>
+                </div>
+                <div class="card c-mustard">
+                    <div class="card-info">
+                        <p class="label">Batas Waktu Kembali</p>
+                        <h3>3 Hari Lagi</h3>
+                    </div>
+                    <div class="card-icon"><i class="fa-regular fa-clock"></i></div>
+                </div>
+                <div class="card c-moss">
+                    <div class="card-info">
+                        <p class="label">Riwayat Baca Saya</p>
+                        <h3>15 Buku</h3>
+                    </div>
+                    <div class="card-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="app-footer">
+            <div class="footer-inner">
+                    <p>&copy; 2026 SIMPUS-Mini &bull; Created by <strong>Adelia Amanta Putri</strong></p>                <ul class="footer-links">
+                    <li><a href="#">Bantuan</a></li>
+                    <li><a href="#">Kebijakan Privasi</a></li>
+                    <li><a href="#">Hubungi Kami</a></li>
+                </ul>
+            </div>
+        </footer>
+
+    </div>
+
+    <div id="notfound-section" class="hidden">
+        <div class="code">404</div>
+        <h2>Halaman tidak ditemukan</h2>
+        <p>Alamat yang kamu tuju tidak ada atau sudah dipindahkan. Yuk kembali ke halaman utama.</p>
+        <button onclick="goHome()">Kembali ke Beranda</button>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+    
+</body>
+</html>
