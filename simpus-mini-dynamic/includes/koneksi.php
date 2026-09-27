@@ -1,9 +1,20 @@
 <?php
-$host     = getenv('PGHOST') ?: getenv('DB_HOST') ?: 'localhost';
-$port     = getenv('PGPORT') ?: getenv('DB_PORT') ?: '5432';
-$dbname   = getenv('PGDATABASE') ?: getenv('DB_NAME') ?: 'railway';
-$user     = getenv('PGUSER') ?: getenv('DB_USER') ?: 'postgres';
-$password = getenv('PGPASSWORD') ?: getenv('DB_PASSWORD') ?: '';
+$db_url = getenv('DATABASE_URL');
+
+if ($db_url) {
+    $dbopts = parse_url($db_url);
+    $host     = $dbopts['host'];
+    $port     = $dbopts['port'] ?? '5432';
+    $user     = $dbopts['user'];
+    $password = $dbopts['pass'];
+    $dbname   = ltrim($dbopts['path'], '/');
+} else {
+    $host     = 'localhost';
+    $port     = '5432';
+    $dbname   = 'railway';
+    $user     = 'postgres';
+    $password = '';
+}
 
 try {
     $dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
@@ -12,6 +23,6 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]);
 } catch (PDOException $e) {
-    die("Koneksi database gagal. Periksa konfigurasi PostgreSQL di includes/koneksi.php. Error: " . $e->getMessage());
+    die("Koneksi database gagal. Error: " . $e->getMessage());
 }
 ?>
