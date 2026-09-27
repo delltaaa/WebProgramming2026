@@ -1,20 +1,17 @@
 <?php
-$host   = 'ep-quiet-paper-b3adagai-pooler.c-4.ap-southeast-1.aws.neon.tech';
-$port   = '5432';
-$dbname = 'neondb';
-$user   = 'neondb_owner';
-$pass   = 'npg_noDrS36tmdzY';
-
-$dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode=require;options='--search_path=public'";
+$host     = getenv('PGHOST') ?: getenv('DB_HOST') ?: 'localhost';
+$port     = getenv('PGPORT') ?: getenv('DB_PORT') ?: '5432';
+$dbname   = getenv('PGDATABASE') ?: getenv('DB_NAME') ?: 'railway';
+$user     = getenv('PGUSER') ?: getenv('DB_USER') ?: 'postgres';
+$password = getenv('PGPASSWORD') ?: getenv('DB_PASSWORD') ?: '';
 
 try {
-    $pdo = new PDO($dsn, $user, $pass, [
-        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES   => false,
+    $dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
+    $pdo = new PDO($dsn, $user, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]);
 } catch (PDOException $e) {
-    http_response_code(500);
-    exit('Koneksi database gagal. Periksa konfigurasi PostgreSQL di includes/koneksi.php.');
+    die("Koneksi database gagal. Periksa konfigurasi PostgreSQL di includes/koneksi.php. Error: " . $e->getMessage());
 }
 ?>
