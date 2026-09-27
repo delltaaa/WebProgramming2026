@@ -5,8 +5,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
     && rm -rf /var/lib/apt/lists/*
 
-COPY . /var/www/html/
+RUN a2dismod mpm_event mpm_worker || true \
+    && a2enmod mpm_prefork rewrite
 
-RUN a2enmod rewrite
+COPY . /var/www/html/
 
 EXPOSE 80
