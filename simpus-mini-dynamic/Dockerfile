@@ -5,8 +5,8 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /var/www/html
+WORKDIR /var/www/html/simpus-mini-dynamic
 
-COPY . .
+COPY . /var/www/html/
 
 CMD php -S 0.0.0.0:${PORT:-8080}
