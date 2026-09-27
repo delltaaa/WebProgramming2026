@@ -8,7 +8,7 @@ WORKDIR /var/www/html/simpus-mini-dynamic
 
 COPY . /var/www/html/
 
-ENV PORT=8080
-EXPOSE 8080
+ENV PORT=10000
+EXPOSE 10000
 
 CMD ["sh", "-c", "php -S 0.0.0.0:${PORT} -t /var/www/html/simpus-mini-dynamic"]
