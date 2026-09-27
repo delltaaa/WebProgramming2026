@@ -1,19 +1,26 @@
 <?php
-$db_url = getenv('DATABASE_URL');
+$db_url   = getenv('DATABASE_URL');
+$pg_host  = getenv('PGHOST');
 
 if ($db_url) {
-    $dbopts = parse_url($db_url);
+    $dbopts   = parse_url($db_url);
     $host     = $dbopts['host'];
     $port     = $dbopts['port'] ?? '5432';
     $user     = $dbopts['user'];
     $password = $dbopts['pass'];
     $dbname   = ltrim($dbopts['path'], '/');
+} elseif ($pg_host) {
+    $host     = $pg_host;
+    $port     = getenv('PGPORT') ?: '5432';
+    $user     = getenv('PGUSER') ?: 'postgres';
+    $password = getenv('PGPASSWORD') ?: '';
+    $dbname   = getenv('PGDATABASE') ?: 'railway';
 } else {
-    $host     = 'localhost';
+    $host     = '127.0.0.1';
     $port     = '5432';
-    $dbname   = 'railway';
     $user     = 'postgres';
     $password = '';
+    $dbname   = 'railway';
 }
 
 try {
