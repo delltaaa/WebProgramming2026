@@ -7,8 +7,8 @@ RUN apt-get update && apt-get install -y \
 
 RUN a2enmod rewrite
 
-COPY . /var/www/html/
+RUN sed -i 's/80/${PORT}/g' /etc/apache2/ports.conf /etc/apache2/sites-available/*.conf
 
-EXPOSE 80
+COPY . /var/www/html/
 
 CMD ["apache2-foreground"]
