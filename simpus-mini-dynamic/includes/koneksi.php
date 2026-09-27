@@ -5,7 +5,7 @@ $dbname = 'neondb';
 $user   = 'neondb_owner';
 $pass   = 'npg_noDrS36tmdzY';
 
-$dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode=require";
+$dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode=require;options='--search_path=public'";
 
 try {
     $pdo = new PDO($dsn, $user, $pass, [
