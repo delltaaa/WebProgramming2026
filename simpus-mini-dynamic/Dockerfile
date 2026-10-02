@@ -1,13 +1,13 @@
 FROM php:8.2-cli
 
-# Install PostgreSQL extension
-RUN docker-php-ext-install pdo_pgsql pgsql
+RUN apt-get update \
+    && apt-get install -y libpq-dev \
+    && docker-php-ext-install pdo_pgsql pgsql \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
 WORKDIR /app
 
-# Copy project
 COPY . /app
 
-# Railway menggunakan PORT dari environment variable
-CMD php -S 0.0.0.0:${PORT} -t /app
+CMD ["sh", "-c", "php -S 0.0.0.0:${PORT} -t /app"]
