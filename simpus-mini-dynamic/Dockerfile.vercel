@@ -1,6 +1,6 @@
 FROM dunglas/frankenphp:php8.2-bookworm
 
-RUN install-php-extensions pdo_pgsql pgsql file
+RUN install-php-extensions pdo_pgsql pgsql
 
 WORKDIR /app
 
