@@ -1,0 +1,11 @@
+FROM dunglas/frankenphp:php8.2-bookworm
+
+RUN install-php-extensions pdo_pgsql pgsql file
+
+WORKDIR /app
+
+COPY . /app
+
+ENV SERVER_NAME=:8080
+
+EXPOSE 8080
