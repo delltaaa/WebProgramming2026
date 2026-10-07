@@ -16,5 +16,5 @@ try {
     ]);
 } catch (PDOException $e) {
     http_response_code(500);
-    exit('Koneksi database gagal.');
+    exit('Koneksi database gagal: ' . $e->getMessage());
 }
