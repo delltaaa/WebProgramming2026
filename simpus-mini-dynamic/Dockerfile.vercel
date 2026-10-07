@@ -1,9 +1,12 @@
-FROM dunglas/frankenphp:php8.2-bookworm
+FROM dunglas/frankenphp:1-php8.2-alpine
 
 RUN install-php-extensions pdo_pgsql pgsql
 
 WORKDIR /app
 
+COPY Caddyfile /etc/caddy/Caddyfile
 COPY . /app
 
-ENV SERVER_NAME=:{$PORT}
+ENV PORT=80
+
+CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
