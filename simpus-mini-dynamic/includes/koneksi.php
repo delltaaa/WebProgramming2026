@@ -6,7 +6,7 @@ $dbname = getenv('PGDATABASE');
 $user = getenv('PGUSER');
 $pass = getenv('PGPASSWORD');
 
-$dsn = "pgsql:host={$host};port={$port};dbname={$dbname}";
+$dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode=require";
 
 try {
     $pdo = new PDO($dsn, $user, $pass, [
