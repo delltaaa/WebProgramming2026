@@ -6,6 +6,16 @@ $dbname = getenv('PGDATABASE');
 $user = getenv('PGUSER');
 $pass = getenv('PGPASSWORD');
 
+if (!$host || !$dbname || !$user || !$pass) {
+    exit(
+        'ENV ERROR | ' .
+        'PGHOST=' . ($host ? 'OK' : 'KOSONG') . ' | ' .
+        'PGDATABASE=' . ($dbname ? 'OK' : 'KOSONG') . ' | ' .
+        'PGUSER=' . ($user ? 'OK' : 'KOSONG') . ' | ' .
+        'PGPASSWORD=' . ($pass ? 'ADA' : 'KOSONG')
+    );
+}
+
 $dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode=require";
 
 try {
@@ -18,3 +28,4 @@ try {
     http_response_code(500);
     exit('Koneksi database gagal: ' . $e->getMessage());
 }
+?>
