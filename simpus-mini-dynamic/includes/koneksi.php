@@ -6,26 +6,10 @@ $dbname = getenv('PGDATABASE');
 $user = getenv('PGUSER');
 $pass = getenv('PGPASSWORD');
 
-if (!$host || !$dbname || !$user || !$pass) {
-    exit(
-        'ENV ERROR | ' .
-        'PGHOST=' . ($host ? 'OK' : 'KOSONG') . ' | ' .
-        'PGDATABASE=' . ($dbname ? 'OK' : 'KOSONG') . ' | ' .
-        'PGUSER=' . ($user ? 'OK' : 'KOSONG') . ' | ' .
-        'PGPASSWORD=' . ($pass ? 'ADA' : 'KOSONG')
-    );
-}
-
-$dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode=require";
-
-try {
-    $pdo = new PDO($dsn, $user, $pass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES => false,
-    ]);
-} catch (PDOException $e) {
-    http_response_code(500);
-    exit('Koneksi database gagal: ' . $e->getMessage());
-}
-?>
+exit(
+    'HOST=' . ($host ?: 'KOSONG') . "\n" .
+    'PORT=' . ($port ?: 'KOSONG') . "\n" .
+    'DATABASE=' . ($dbname ?: 'KOSONG') . "\n" .
+    'USER=' . ($user ?: 'KOSONG') . "\n" .
+    'PASSWORD=' . ($pass !== false && $pass !== '' ? 'ADA' : 'KOSONG')
+);
